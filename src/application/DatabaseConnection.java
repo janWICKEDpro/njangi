@@ -7,7 +7,8 @@ public class DatabaseConnection {
 	Connection getConnection() {
 		String databaseName = "njangi";
 		String databaseUser = "root";
-		String databasePassword = "janwickedpro";
+		//put ya password
+		String databasePassword = "";
 		String url = "jdbc:mysql://localhost:33060/" + databaseName;
 		
 		try {
