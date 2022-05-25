@@ -13,11 +13,14 @@ public class Main extends Application {
 			BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			DatabaseConnection con = new DatabaseConnection();
+			con.getConnection();
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public static void main(String[] args) {
