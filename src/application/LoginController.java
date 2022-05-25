@@ -42,7 +42,7 @@ public class LoginController {
 		int user_code = UserDB.onLogin(email, password);
 		if(user_code >= 1) {
 			System.out.println("logged");
-			show(event);
+			show(event,email);
 		}else {
 			System.out.println("not logged");
 		}
@@ -60,11 +60,17 @@ public class LoginController {
 		primaryStage.show();
 	}
 	
-	public void show(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("Home.fxml")); // for login
-		primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-	    scene = new Scene(root, 600, 400); // for login
+	public void show(ActionEvent event, String email) throws IOException {
+		int id = UserDB.userId(email);
+		String user_name = UserDB.userName(email);
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("NewHome.fxml"));
+	    root = loader.load();
+		Scene scene = new Scene(root); // for login
+		NewHomeController controller = loader.getController();
+		controller.init(user_name,id);
 		
+		primaryStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.show();

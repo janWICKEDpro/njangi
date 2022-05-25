@@ -22,12 +22,6 @@ public class Main extends Application {
 			primaryStage.setResizable(false);
 			primaryStage.show();
 			
-			// Instantiates Database
-//			DatabaseConnection dbConnection = new DatabaseConnection();
-//			
-//			Connection con =dbConnection.getConnection();
-//			dbConnection.instantiateDB();
-			//if(con != null) System.out.println("connected");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

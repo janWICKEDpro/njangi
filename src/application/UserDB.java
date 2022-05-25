@@ -59,7 +59,56 @@ public class UserDB {
 			return 0;
 		}
 	}
-	
+	static public int userId(String email) {
+		DatabaseConnection con = new DatabaseConnection();
+		Connection connection = con.getConnection();
+		try {
+			String sql = "SELECT * FROM users "
+				     + "WHERE user_email_address = '"+email+"';";
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			
+			int r = 0;
+			if(result.next()) {
+			
+				r = result.getInt("user_id");
+			}else {
+				
+			}
+			
+			connection.close();
+			return r;
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	static public String userName(String email) {
+		DatabaseConnection con = new DatabaseConnection();
+		Connection connection = con.getConnection();
+		try {
+			String sql = "SELECT * FROM users "
+				     + "WHERE user_email_address = '"+email+"';";
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			
+			String r = "";
+			if(result.next()) {
+			
+				r = result.getString("user_name");
+			}else {
+				
+			}
+			
+			connection.close();
+			return r;
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+			return "";
+		}
+	}
 	static public boolean exists(String email) {
 		DatabaseConnection con = new DatabaseConnection();
 		Connection connection = con.getConnection();
@@ -80,6 +129,61 @@ public class UserDB {
 			return false;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	static public boolean createNjangi(String code, String name, String admin, String rules, int id) {
+		DatabaseConnection con = new DatabaseConnection();
+		Connection connection = con.getConnection();
+		try {
+			String sql = "INSERT INTO njangi"
+					+ "(njangi_code, njangi_name, njangi_admin, njangi_rules, njangi_balance)"
+					+ "VALUES"
+					+ "(?, ?, ?, ?, ?);";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, code);
+			statement.setString(2, name);
+			statement.setString(3, admin);
+			statement.setString(4, rules);
+			statement.setInt(5, 0);
+			statement.execute();
+			
+			String sql1 = "INSERT INTO njangi_users"
+					+ "(user_id, njangi_code, is_admin)"
+					+ "VALUES"
+					+ "(?, ?, ?);";
+			PreparedStatement statement1 = connection.prepareStatement(sql1);
+			statement1.setInt(1, id);
+			statement1.setString(2, code);
+			statement1.setBoolean(3, true);
+			statement1.execute();
+			
+			connection.close();
+			return true;
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public  boolean joiNjangi(int id, String code) {
+		DatabaseConnection con = new DatabaseConnection();
+		Connection connection = con.getConnection();
+		try {
+			String sql = "INSERT INTO request"
+					+ "(user_id, njangi_code)"
+					+ "VALUES"
+					+ "(?, ?);";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			statement.setString(2, code);
+			statement.execute();
+			
+			connection.close();
+			return true;
+		} catch (SQLException e) {
+		
 			e.printStackTrace();
 			return false;
 		}

@@ -34,11 +34,16 @@ public class SignUpController {
 		String user_password = password.getText();
 		
 		boolean res = UserDB.onAdd(user_email_address, user_password, user_name, 100000);
+		int id = UserDB.userId(user_email_address);
 		if(res) {
-			Parent root = FXMLLoader.load(getClass().getResource("Home.fxml")); // for login
-			primaryStage = (Stage) ((Node)e.getSource()).getScene().getWindow();
-			Scene scene = new Scene(root, 600, 400); // for login
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("NewHome.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root); // for login
+			NewHomeController controller = loader.getController();
+			controller.init(user_name,id);
 			
+			primaryStage = (Stage) ((Node)e.getSource()).getScene().getWindow();
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
